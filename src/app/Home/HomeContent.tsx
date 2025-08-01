@@ -1,31 +1,32 @@
-import Layout from "../../src/app/components/Layout";
-export default function Home() {
+export default function HomeContent() {
   return (
-    <Layout>
-    <main
+    <div
       style={{
-        maxWidth: "700px",
-        margin: "4rem auto",
+        maxWidth: "600px",
+        margin: "2rem auto",
+        padding: "1rem 2rem",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        padding: "0 1rem",
-        lineHeight: 1.6,
+        fontSize: "1rem",
+        lineHeight: 1.5,
         color: "#333",
+        backgroundColor: "#f9f9f9",
+        borderRadius: "8px",
+        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
       }}
     >
-      <p style={{ marginBottom: "0.5rem", fontSize: "1.2rem" }}>
+      <p style={{ marginBottom: "0.5rem" }}>
         👋 Welcome! This is a demo of AI-based projects built using{" "}
         <strong>Next.js</strong>, <strong>Azure OpenAI</strong>, and{" "}
         <strong>Azure Blob Storage</strong>.
       </p>
-      <p style={{ marginBottom: "0.5rem", fontSize: "1.1rem" }}>
+      <p style={{ marginBottom: "0.5rem" }}>
         ✅ <strong>Image Analyzer</strong> is fully functional — you can upload
         an image and receive AI-generated captions and analysis.
       </p>
-      <p style={{ fontSize: "1.1rem" }}>
+      <p>
         ❌ <strong>Resume Analyzer</strong> is currently disabled due to high API
         costs. The code and UI are available in the GitHub repo for reference.
       </p>
-      </main>
-      </Layout>
+    </div>
   );
 }

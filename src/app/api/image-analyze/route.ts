@@ -2,16 +2,11 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-export async function POST(req: Request) {
-  console.log("POST /api/image-analyze called");
-  debugger;
-
+export async function POST(req: Request) { 
   try {
     // parse multipart/form-data (image file) from request
     const formData = await req.formData();
-    console.log("FormData received:", formData);
-    debugger;
-
+    console.log("FormData received:", formData);   
     const file = formData.get("image") as Blob | null;
     if (!file) {
       console.log("No image file provided");
@@ -22,13 +17,11 @@ export async function POST(req: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     console.log("Buffer created from image file, size:", buffer.length);
-    debugger;
-
-    // Call Azure Computer Vision API
+       // Call Azure Computer Vision API
     const endpoint = process.env.AZURE_COGNITIVE_ENDPOINT!;
     const key = process.env.AZURE_COGNITIVE_KEY!;
     console.log("Calling Azure Computer Vision API at:", endpoint);
-    debugger;
+ 
       
   const response = await fetch(`${endpoint}/vision/v3.2/analyze?visualFeatures=description&language=en`, {
   method: "POST",
@@ -38,11 +31,8 @@ export async function POST(req: Request) {
   },
   body: buffer,
 });
-
-      
+     
     console.log("Azure response status:", response.status);
-    debugger;
-
     if (!response.ok) {
       const error = await response.json();
       console.error("Azure API error:", error);
@@ -58,8 +48,6 @@ export async function POST(req: Request) {
       "No description available for this image.";
 
     console.log("Image analysis caption:", caption);
-    debugger;
-
     return NextResponse.json({ analysis: caption });
   } catch (error: any) {
     console.error("Unexpected error:", error);

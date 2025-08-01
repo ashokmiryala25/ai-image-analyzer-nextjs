@@ -16,7 +16,6 @@ async function streamToBuffer(readable: NodeJS.ReadableStream): Promise<Buffer> 
 
 export async function POST(req: NextRequest) {
   try {
-    debugger;
     const { blobName } = await req.json();
 
     if (!blobName) {
@@ -27,10 +26,6 @@ export async function POST(req: NextRequest) {
     const account = process.env.AZURE_STORAGE_ACCOUNT_NAME!;
     const key = process.env.AZURE_STORAGE_ACCOUNT_KEY!;
     const container = process.env.AZURE_STORAGE_CONTAINER_NAME!;
-    console.log({
-     account
-    
-})
     const sharedKey = new StorageSharedKeyCredential(account, key);
     const blobService = new BlobServiceClient(
       `https://${account}.blob.core.windows.net`,
@@ -46,7 +41,6 @@ const blobs = [];
 for await (const blob of containerClient.listBlobsFlat()) {
   blobs.push(blob.name);
 }
-    console.log(blobs);
     if (!downloadResponse.readableStreamBody) {
       throw new Error("No blob stream available");
     }

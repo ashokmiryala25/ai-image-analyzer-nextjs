@@ -14,8 +14,7 @@ export default function ImageAnalyzer() {
     setResult(null);
     const file = e.target.files?.[0];
       if (file) {
-         debugger;
-      if (file.size > 4 * 1024 * 1024) {
+        if (file.size > 4 * 1024 * 1024) {
         setError("File too large. Please upload an image smaller than 4MB.");
         setSelectedFile(null);
         return;
@@ -30,7 +29,6 @@ export default function ImageAnalyzer() {
     setError(null);
     setResult(null);
       const file = e.dataTransfer.files?.[0];
-      debugger;
       if (file.size > 4 * 1024 * 1024) {
         setError("File too large. Please upload an image smaller than 4MB.");
         setSelectedFile(null);

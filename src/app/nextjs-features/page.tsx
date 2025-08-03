@@ -4,8 +4,8 @@ import type { CSSProperties } from "react";
 
 export default function NextjsFeaturesPage() {
   const features = [
-    { href: "/nextjs-features/ssr-example", label: "SSR Example" },
-    { href: "/nextjs-features/ssg-example/post-1", label: "SSG Example" },
+    { href: "/nextjs-features/ssr-example", label: "Server-Side Rendering	On every request	Dynamic pages, user-specific content" },
+    { href: "/nextjs-features/ssg-example/post-1", label: "Static Site Generation	At build time	Blog posts, marketing pages" },
     { href: "/nextjs-features/api-example/api/hello", label: "API Example" },
     { href: "/nextjs-features/server-actions/form", label: "Server Actions" },
   ];
@@ -58,3 +58,11 @@ const cardStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
 };
+
+
+// Acronym	Stands For	When It Runs	Common Use Case
+// SSR	Server-Side Rendering	On every request	Dynamic pages, user-specific content
+// SSG	Static Site Generation	At build time	Blog posts, marketing pages
+// ISR	Incremental Static Regeneration	Initially at build, then periodically	News, product listings, semi-frequent updates
+// CSR	Client-Side Rendering	In browser after page load	Dashboards, dynamic UIs that don’t need SEO
+

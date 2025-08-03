@@ -120,3 +120,18 @@ export default function UsersPage({ users }: UsersPageProps) {
 // API routes handle requests: Execute backend logic, respond with JSON.
 
 // Client updates UI based on API response.
+
+
+
+// Summary of "use client":
+// Location	Default component type	"use client" needed?
+// /pages directory	Client component	No
+// /src/app directory	Server component	Yes, if you use client hooks
+
+
+// SSR: Server-Side Rendering
+// Page is rendered on the server at the time of each request.
+
+// Always serves fresh data.
+
+// In Next.js, you use getServerSideProps.

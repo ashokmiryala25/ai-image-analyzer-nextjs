@@ -1,55 +1,31 @@
-// File: pages/blog/[id].tsx
-import { GetStaticPaths, GetStaticProps } from 'next';
-// 1. Define TypeScript types
+
+import { notFound } from 'next/navigation';
+
 type Post = {
   id: string;
   title: string;
   content: string;
 };
 
-type BlogPostProps = {
-  post: Post;
-};
-
-// 2. getStaticPaths - Define dynamic routes to pre-build
-export const getStaticPaths: GetStaticPaths = async () => {
-  // Simulate API call to get all post IDs
+// Simulate API call for a single post
+async function getPost(id: string): Promise<Post | null> {
+  // Replace with real API call if needed
   const posts = [
-    { id: '1' },
-    { id: '2' },
-    { id: '3' }
+    { id: '1', title: 'This is blog post #1', content: 'Hello! This is the content of post 1. It was statically generated.' },
+    { id: '2', title: 'This is blog post #2', content: 'Hello! This is the content of post 2. It was statically generated.' },
+    { id: '3', title: 'This is blog post #3', content: 'Hello! This is the content of post 3. It was statically generated.' },
   ];
+  return posts.find((p) => p.id === id) || null;
+}
 
-  const paths = posts.map((post) => ({
-    params: { id: post.id },
-  }));
-
-  return {
-    paths,
-    fallback: false, // Show 404 for any other path
-  };
-};
-
-// 3. getStaticProps - Fetch data for each path
-export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) => {
-  const { id } = params as { id: string };
-
-  // Simulate API call for a single post
-  const post = {
-    id,
-    title: `This is blog post #${id}`,
-    content: `Hello! This is the content of post ${id}. It was statically generated.`,
-  };
-
-  return {
-    props: {
-      post,
-    },
-  };
-};
-
-// 4. Page component - receives `post` as prop
-export default function BlogPost({ post }: BlogPostProps) {
+// Page component for /ssg-example/[id]
+// In app directory, this file should be named [id]/page.tsx for dynamic routing
+// For demonstration, we'll use a hardcoded id (e.g., '1')
+export default async function BlogPostPage() {
+  // In a real app, get id from params: export default async function Page({ params }: { params: { id: string } })
+  const id = '1'; // Replace with dynamic param in real usage
+  const post = await getPost(id);
+  if (!post) return notFound();
   return (
     <div style={{ padding: '2rem' }}>
       <h1>{post.title}</h1>

@@ -1,4 +1,5 @@
- import { NextRequest, NextResponse } from "next/server";
+
+import { NextRequest, NextResponse } from "next/server";
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { OpenAI } from "openai";
 import * as pdfParse from "pdf-parse";
@@ -14,10 +15,10 @@ async function streamToBuffer(readable: NodeJS.ReadableStream): Promise<Buffer> 
   return Buffer.concat(chunks);
 }
 
+// POST handler for resume analysis
 export async function POST(req: NextRequest) {
   try {
     const { blobName } = await req.json();
-
     if (!blobName) {
       return NextResponse.json({ error: "Missing blobName" }, { status: 400 });
     }
@@ -31,16 +32,10 @@ export async function POST(req: NextRequest) {
       `https://${account}.blob.core.windows.net`,
       sharedKey
     );
-
     const containerClient = blobService.getContainerClient(container);
     const blobClient = containerClient.getBlobClient(blobName);
     const downloadResponse = await blobClient.download();
 
-
-const blobs = [];
-for await (const blob of containerClient.listBlobsFlat()) {
-  blobs.push(blob.name);
-}
     if (!downloadResponse.readableStreamBody) {
       throw new Error("No blob stream available");
     }
@@ -72,7 +67,6 @@ for await (const blob of containerClient.listBlobsFlat()) {
 
     const analysis = completion.choices?.[0]?.message?.content ?? "No analysis generated.";
     return NextResponse.json({ analysis });
-
   } catch (error: any) {
     console.error("Analyze error:", error);
     return NextResponse.json(

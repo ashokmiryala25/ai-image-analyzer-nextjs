@@ -1,66 +1,18 @@
-import { GetServerSideProps } from 'next';
-import { useState } from 'react';
+import UsersClient, { User } from './UsersClient';
 
-type User = {
-  id: string;
-  name: string;
-};
-
-type UsersPageProps = {
-  users: User[];
-};
-
-export const getServerSideProps: GetServerSideProps<UsersPageProps> = async () => {
-  const res = await fetch('https://api.example.com/getAllUsers');
-  const users: User[] = await res.json();
-
-  return {
-    props: {
-      users,
-    },
-  };
-};
-
-export default function UsersPage({ users }: UsersPageProps) {
-  const [message, setMessage] = useState<string>('');
-
-  const saveUser = async () => {
-    const res = await fetch('/api/saveUser', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: '123' }),
-    });
-    const data = await res.json();
-    setMessage(data.message);
-  };
-
-  const searchUser = async () => {
-    const res = await fetch('/api/searchUser?userId=123');
-    const data = await res.json();
-    setMessage(`Found user: ${data.name}`);
-  };
-
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>User List</h1>
-      <ul>
-        {users.map((u) => (
-          <li key={u.id}>{u.name}</li>
-        ))}
-      </ul>
-
-      <button onClick={saveUser}>Save User</button>
-      <button onClick={searchUser} style={{ marginLeft: '1rem' }}>
-        Search User
-      </button>
-
-      <p>{message}</p>
-    </div>
-  );
+// Fetch users on the server (server component)
+async function getUsers(): Promise<User[]> {
+  const res = await fetch('https://api.example.com/getAllUsers', { cache: 'no-store' });
+  return res.json();
 }
 
-// 🔥 Next.js Data Fetching & Client Interaction Summary
-// 1️⃣ getServerSideProps: Server-Side Data Fetching on Page Load
+// Hybrid: server fetch, client interactivity
+export default async function UsersPage() {
+  const users = await getUsers();
+  // Hydrate client for interactivity
+  return <UsersClient users={users} />;
+}
+// Only this component uses useState
 // Runs on the server, before rendering the page.
 
 // Used to fetch data at request time (SSR).

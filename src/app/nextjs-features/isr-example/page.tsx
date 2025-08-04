@@ -1,6 +1,5 @@
-// pages/posts/[id].tsx
-import { GetStaticProps, GetStaticPaths, GetStaticPropsContext } from 'next';
-import { useRouter } from 'next/router';
+
+import { notFound } from 'next/navigation';
 
 type Post = {
   id: string;
@@ -8,65 +7,28 @@ type Post = {
   body: string;
 };
 
-type PostPageProps = {
-  post: Post;
-};
-
-// Fake API
-const fetchPostFromAPI = async (id: string): Promise<Post> => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+// Fetch a single post from API
+async function fetchPostFromAPI(id: string): Promise<Post | null> {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, { next: { revalidate: 60 } });
+  if (!res.ok) return null;
   return res.json();
-};
+}
 
-const fetchAllPosts = async (): Promise<Post[]> => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
-  return res.json();
-};
-
-export const getStaticProps: GetStaticProps<PostPageProps> = async (
-  context: GetStaticPropsContext
-) => {
-  const id = context.params?.id as string;
+// Page component for /isr-example/[id]
+// In app directory, this file should be named [id]/page.tsx for dynamic routing
+// For demonstration, we'll use a hardcoded id (e.g., '1')
+export default async function PostPage() {
+  // In a real app, get id from params: export default async function Page({ params }: { params: { id: string } })
+  const id = '1'; // Replace with dynamic param in real usage
   const post = await fetchPostFromAPI(id);
-
-  return {
-    props: {
-      post,
-    },
-    revalidate: 60, // Regenerate this page at most once every 60 seconds
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await fetchAllPosts();
-
-  const paths = posts.map((post) => ({
-    params: { id: post.id.toString() },
-  }));
-
-  return {
-    paths,
-    fallback: 'blocking', // Enables ISR for new paths
-  };
-};
-
-const PostPage = ({ post }: PostPageProps) => {
-  const router = useRouter();
-
-  // Optional: loading state for fallback true
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
+  if (!post) return notFound();
   return (
     <main style={{ padding: '2rem' }}>
       <h1>{post.title}</h1>
       <p>{post.body}</p>
     </main>
   );
-};
-
-export default PostPage;
+}
 
 
 

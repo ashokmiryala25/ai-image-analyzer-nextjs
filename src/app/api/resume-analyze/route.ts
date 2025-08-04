@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { OpenAI } from "openai";
-import * as pdfParse from "pdf-parse";
+
 
 export const runtime = "nodejs";
 
@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
     }
 
     const buffer = await streamToBuffer(downloadResponse.readableStreamBody);
+    const pdfParse = (await import("pdf-parse")).default;
     const { text: resumeText } = await pdfParse(buffer);
 
     // OpenAI client setup

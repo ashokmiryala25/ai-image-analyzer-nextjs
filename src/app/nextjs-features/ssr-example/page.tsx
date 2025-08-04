@@ -8,7 +8,16 @@ async function getUsers(): Promise<User[]> {
 
 // Hybrid: server fetch, client interactivity
 export default async function UsersPage() {
-  const users = await getUsers();
+  let users: User[] = [];
+  let error = null;
+  try {
+    users = await getUsers();
+  } catch (e: any) {
+    error = e.message || 'Failed to load users.';
+  }
+  if (error) {
+    return <div style={{ padding: '2rem', color: 'red' }}>Error: {error}</div>;
+  }
   // Hydrate client for interactivity
   return <UsersClient users={users} />;
 }

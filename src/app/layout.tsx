@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 
+import ApolloProviderWrapper from "../app/components/ApolloProviderWrapper";  // adjust path if needed
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -27,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
       <body className="antialiased">
-        {children}
+        <ApolloProviderWrapper>
+          {children}
+        </ApolloProviderWrapper>
       </body>
     </html>
   );

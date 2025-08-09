@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+
 type UserFormProps = {
   form: { name: string; email: string; age: string };
   errors: { name?: string; email?: string; age?: string };

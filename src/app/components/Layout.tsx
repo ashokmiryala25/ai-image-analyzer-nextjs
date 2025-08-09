@@ -8,32 +8,34 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        backgroundColor: "#fafafa",
-      }}
-    >
-      <Header />
-      <main
+
+      <div
         style={{
-          padding: "2rem",
-          maxWidth: "600px",
-          width: "100%",
-          flexGrow: 1,
+          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "center",
+          backgroundColor: "#fafafa",
         }}
       >
-        {children}
-      </main>
-      <Footer />
-    </div>
+        <Header />
+        <main
+          style={{
+            padding: "2rem",
+            maxWidth: "600px",
+            width: "100%",
+            flexGrow: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          {children}
+        </main>
+        <Footer />
+      </div>
+   
   );
 }

@@ -37,9 +37,9 @@ export default function Header() {
         <Link href="/resume-analyzer" style={navLinkStyle}>
           Resume Analyzer
         </Link>
-        <Link href="/nextjs-features" style={navLinkStyle}>
+        {/* <Link href="/nextjs-features" style={navLinkStyle}>
           Next.js Features
-        </Link>
+        </Link> */}
       </nav>
     </header>
   );
